@@ -9,7 +9,7 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  paths-filter:
+  has-app-changes:
     timeout-minutes: 10
     runs-on: ubuntu-latest
     outputs:
@@ -23,8 +23,9 @@ jobs:
             expo:
               - 'apps/mobile/**'
 
-  mobile:
-    if: needs.paths-filter.outputs.expo == 'true'
+  update-mobile:
+    if: needs.has-app-changes.outputs.expo == 'true'
+    needs: has-app-changes
     runs-on: ubuntu-latest
     steps:
       - name: 🏗 Setup Repo
@@ -55,3 +56,14 @@ jobs:
         with:
           working-directory: apps/mobile
           command: eas update --auto --branch ${{ github.head_ref }} --non-interactive
+
+  mobile-update-ignored:
+    timeout-minutes: 5
+    if: needs.has-app-changes.outputs.expo == 'false'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Comment PR
+        uses: marocchino/sticky-pull-request-comment@v2
+        with:
+          message: |
+            :no_entry: This PR does not contain changes to the mobile app. No Expo Preview Deployment will be created.

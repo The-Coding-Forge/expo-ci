@@ -70,4 +70,4 @@ jobs:
         uses: marocchino/sticky-pull-request-comment@v2
         with:
           message: |
-            :no_entry: This PR does not contain changes to the mobile app. No Expo Preview Deployment will be created.
+            :no_entry: These commits do not contain changes to the mobile app. No Expo Preview Deployment will be created.

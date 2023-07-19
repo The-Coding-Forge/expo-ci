@@ -24,12 +24,13 @@ jobs:
         run: yarn run build:mobile
 
       - name: 🕵️ Pull Env Vars
-        working-directory: apps/mobile
+        working-directory: apps/mobilex b
         run: npx dotenv-vault pull development -m ${{ secrets.DOTENV_ME }} -y
         env:
           DOTENV_KEY: ${{ secrets.DOTENV_KEY }}
 
       - name: 🚀 EAS Update Mobile
+        continue-on-error: true
         uses: expo/expo-github-action/preview@v8
         with:
           working-directory: apps/mobile

@@ -14,16 +14,19 @@ runs:
   using: composite
   steps:
     - name: ⬆️ Bump App Version - Patch
+      shell: bash
       if: ${{ inputs.versionBumpType == 'patch' }}
       working-directory: ${{ inputs.working-directory }}
       run: ./scripts/bump_version.sh -p
 
     - name: ⬆️ Bump App Version - Minor
+      shell: bash
       if: ${{ inputs.versionBumpType == 'minor' }}
       working-directory: ${{ inputs.working-directory }}
       run: ./scripts/bump_version.sh -m
 
     - name: ⬆️ Bump App Version - Major
+      shell: bash
       if: ${{ inputs.versionBumpType == 'major' }}
       working-directory: ${{ inputs.working-directory }}
       run: ./scripts/bump_version.sh -M

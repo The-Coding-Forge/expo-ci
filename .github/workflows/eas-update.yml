@@ -15,12 +15,6 @@ jobs:
       - name: 🏗 Setup Repo
         uses: actions/checkout@v3
 
-      - name: 👷 Pull Env Vars
-        working-directory: apps/mobile
-        run: npx dotenv-vault pull development -m ${{ secrets.DOTENV_ME }} -y
-        env:
-          DOTENV_KEY: ${{ secrets.DOTENV_KEY }}
-
       - name: 🏗 Setup Monorepo
         uses: ./.github/actions/setup-monorepo
         with:
@@ -28,6 +22,12 @@ jobs:
 
       - name: 👷 Build Mobile Packages
         run: yarn run build:mobile
+
+      - name: 🕵️ Pull Env Vars
+        working-directory: apps/mobile
+        run: npx dotenv-vault pull development -m ${{ secrets.DOTENV_ME }} -y
+        env:
+          DOTENV_KEY: ${{ secrets.DOTENV_KEY }}
 
       - name: 🚀 EAS Update Mobile
         uses: expo/expo-github-action/preview@v8

@@ -6,9 +6,7 @@
     "version": "2.1.0",
     "orientation": "portrait",
     "userInterfaceStyle": "light",
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
       "buildNumber": "4",
@@ -28,7 +26,7 @@
       }
     },
     "runtimeVersion": {
-      "policy": "sdkVersion"
+      "policy": "nativeVersion"
     },
     "updates": {
       "url": "https://u.expo.dev/843f52df-3350-4f31-889c-bf56783c6be4"

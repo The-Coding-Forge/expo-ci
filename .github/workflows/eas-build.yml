@@ -49,11 +49,29 @@ jobs:
         with:
           expo-token: ${{ secrets.EXPO_CI_TOKEN }}
 
-      - name: ⬆️ Bump App Version
-        uses: ./.github/actions/bump
+      - name: ⬆️ Bump App Version - Patch
+        if: ${{ github.event.inputs.versionBumpType == 'patch' }}
+        working-directory: ${{ env.WORKING_DIRECTORY }}
+        run: ./scripts/bump_version.sh -p
+
+      - name: ⬆️ Bump App Version - Minor
+        if: ${{ github.event.inputs.versionBumpType == 'minor' }}
+        working-directory: ${{ env.WORKING_DIRECTORY }}
+        run: ./scripts/bump_version.sh -m
+
+      - name: ⬆️ Bump App Version - Major
+        if: ${{ github.event.inputs.versionBumpType == 'major' }}
+        working-directory: ${{ env.WORKING_DIRECTORY }}
+        run: ./scripts/bump_version.sh -M
+
+      - name: 👷 Commit Changes
+        if: ${{ github.event.inputs.versionBumpType != 'none' }}
+        uses: EndBug/add-and-commit@v9
         with:
-          version-bump-type: ${{ github.event.inputs.versionBumpType }}
-          working-directory: ${{ env.WORKING_DIRECTORY }}
+          author_name: Dan Yalg
+          author_email: dan@thecodingforge.com.au
+          message: 'Automated Version Bump'
+          add: 'apps/mobile/app.json'
 
       - name: 👷 Build Mobile Packages
         run: yarn run build:mobile

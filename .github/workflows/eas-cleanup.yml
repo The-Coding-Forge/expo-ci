@@ -1,0 +1,26 @@
+name: EAS Cleanup
+
+on:
+  pull_request:
+    types:
+      - closed
+
+jobs:
+  update:
+    timeout-minutes: 10
+    name: Cleanup Preview Channel and Branch
+    runs-on: ubuntu-latest
+    steps:
+      - name: 🏗 Setup Repo
+        uses: actions/checkout@v3
+
+      - name: 🏗 Setup Monorepo
+        uses: ./.github/actions/setup-monorepo
+        with:
+          expo-token: ${{ secrets.EXPO_CI_TOKEN }}
+
+      - name: 🗑️ Delete Channel
+        run: eas channel:delete ${{ github.head_ref }} --non-interactive
+
+      - name: 🗑️ Delete Branch
+        run: eas branch:delete ${{ github.head_ref }} --non-interactive

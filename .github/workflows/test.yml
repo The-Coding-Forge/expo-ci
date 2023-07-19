@@ -1,4 +1,4 @@
-name: test
+name: Test
 
 on:
   workflow_dispatch:
@@ -8,7 +8,7 @@ on:
     types: [opened, synchronize]
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.event_name }}-${{ github.ref }}
+  group: ${{ github.head_ref }}
   cancel-in-progress: true
 
 jobs:
@@ -17,17 +17,17 @@ jobs:
     strategy:
       fail-fast: false
     steps:
-      - name: 🏗 Setup repository
+      - name: 🏗 Setup Repo
         uses: actions/checkout@v3
 
-      - name: 🏗 Setup monorepo
+      - name: 🏗 Setup Monorepo
         uses: ./.github/actions/setup-monorepo
 
-      - name: ✅ Lint packages
+      - name: ✅ Lint Packages
         run: yarn run lint
 
-      - name: 👷 Build packages
+      - name: 👷 Build Packages
         run: yarn run build
 
-      - name: 🧪 Test packages
+      - name: 🧪 Test Packages
         run: yarn run test

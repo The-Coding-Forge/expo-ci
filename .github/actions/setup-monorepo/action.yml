@@ -30,11 +30,11 @@ runs:
         eas-version: ${{ inputs.eas-version }}
         token: ${{ inputs.expo-token }}
 
-    - name: 📦 Install dependencies
+    - name: 📦 Instal Deps
       run: yarn install
       shell: bash
 
-    - name: ♻️ Restore cache
+    - name: ♻️ Restore Cache
       uses: actions/cache@v3
       with:
         key: turbo-${{ runner.os }}-${{ github.sha }}

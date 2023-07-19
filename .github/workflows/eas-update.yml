@@ -9,7 +9,22 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  paths-filter:
+    timeout-minutes: 10
+    runs-on: ubuntu-latest
+    outputs:
+      expo: ${{ steps.filter.outputs.expo }}
+    steps:
+      - uses: actions/checkout@v3
+      - uses: dorny/paths-filter@v2
+        id: filter
+        with:
+          filters: |
+            expo:
+              - 'apps/mobile/**'
+
   mobile:
+    if: needs.paths-filter.outputs.expo == 'true'
     runs-on: ubuntu-latest
     steps:
       - name: 🏗 Setup Repo
@@ -23,11 +38,16 @@ jobs:
       - name: 👷 Build Mobile Packages
         run: yarn run build:mobile
 
-      # - name: 🕵️ Pull Env Vars
-      #   working-directory: apps/mobile
-      #   run: npx dotenv-vault pull development -m ${{ secrets.DOTENV_ME }} -y
-      #   env:
-      #     DOTENV_KEY: ${{ secrets.DOTENV_KEY }}
+      - name: 🕵️ Pull Env Vars
+        working-directory: apps/mobile
+        run: npx dotenv-vault pull development -m ${{ secrets.DOTENV_ME }}
+        env:
+          DOTENV_KEY: ${{ secrets.DOTENV_KEY }}
+          # https://github.com/expo/expo-github-action/issues/221
+
+      - name: 😷 Expo Doctor
+        working-directory: apps/mobile
+        run: npx expo-doctor
 
       - name: 🚀 EAS Update Mobile
         continue-on-error: true

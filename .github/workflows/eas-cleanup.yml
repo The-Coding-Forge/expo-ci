@@ -10,14 +10,31 @@ jobs:
     timeout-minutes: 10
     name: Cleanup Preview Channel and Branch
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: apps/mobile
     steps:
       - name: 🏗 Setup Repo
         uses: actions/checkout@v3
 
-      - name: 🏗 Setup Monorepo
-        uses: ./.github/actions/setup-monorepo
+      # if we are on the develpoment, staging or main branches, then exit early
+      - name: Check Branch
+        if: ${{ github.head_ref == 'development' || github.head_ref == 'staging' || github.head_ref == 'main' }}
+        run: exit 0
+
+      - name: 🏗 Setup Node
+        uses: actions/setup-node@v3
         with:
-          expo-token: ${{ secrets.EXPO_CI_TOKEN }}
+          node-version: 18
+          cache: yarn
+          cache-dependency-path: './yarn.lock'
+
+      - name: 🏗 Setup Expo
+        uses: expo/expo-github-action@v8
+        with:
+          expo-version: latest
+          eas-version: latest
+          token: ${{ secrets.EXPO_CI_TOKEN }}
 
       - name: 🗑️ Delete Channel
         run: eas channel:delete ${{ github.head_ref }} --non-interactive

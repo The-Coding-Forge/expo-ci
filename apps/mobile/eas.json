@@ -9,10 +9,6 @@
         "icon": "./assets/images/icon.png",
         "splashImage": "./assets/images/splash.png",
         "bundleIdentifier": "com.demociapp"
-      },
-      "cache": {
-        "key": "turbo",
-        "paths": ["../../node_modules/.cache/turbo"]
       }
     },
     "sim": {

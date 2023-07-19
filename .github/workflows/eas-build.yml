@@ -23,6 +23,19 @@ on:
           - development
           - staging
           - production
+      versionBumpType:
+        description: 'Version Bump Type (only set for prod builds)'
+        required: true
+        default: 'none'
+        type: choice
+        options:
+          - none
+          - patch
+          - minor
+          - major
+
+env:
+  WORKING_DIRECTORY: apps/mobile
 
 jobs:
   mobile:
@@ -36,9 +49,15 @@ jobs:
         with:
           expo-token: ${{ secrets.EXPO_CI_TOKEN }}
 
+      - name: ⬆️ Bump App Version
+        uses: ./.github/actions/bump
+        with:
+          version-bump-type: ${{ github.event.inputs.versionBumpType }}
+          working-directory: ${{ env.WORKING_DIRECTORY }}
+
       - name: 👷 Build Mobile Packages
         run: yarn run build:mobile
 
       - name: 🚀 EAS Build Mobile
-        working-directory: apps/mobile
+        working-directory: ${{ env.WORKING_DIRECTORY }}
         run: eas build --non-interactive --no-wait --platform ${{ github.event.inputs.platform }} --profile ${{ github.event.inputs.profile }}

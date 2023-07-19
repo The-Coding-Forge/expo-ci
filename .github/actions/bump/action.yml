@@ -1,0 +1,38 @@
+name: Version Bump
+description: Bumps app version
+
+inputs:
+  node-version:
+    working-directory: Path to cd into
+    default: apps/mobile
+
+  version-bump-type:
+    description: Minor, Major or Patch
+    default: none
+
+runs:
+  using: composite
+  steps:
+    - name: ⬆️ Bump App Version - Patch
+      if: ${{ inputs.versionBumpType == 'patch' }}
+      working-directory: ${{ inputs.working-directory }}
+      run: ./scripts/bump_version.sh -p
+
+    - name: ⬆️ Bump App Version - Minor
+      if: ${{ inputs.versionBumpType == 'minor' }}
+      working-directory: ${{ inputs.working-directory }}
+      run: ./scripts/bump_version.sh -m
+
+    - name: ⬆️ Bump App Version - Major
+      if: ${{ inputs.versionBumpType == 'major' }}
+      working-directory: ${{ inputs.working-directory }}
+      run: ./scripts/bump_version.sh -M
+
+    - name: 👷 Commit Changes
+      if: ${{ inputs.versionBumpType != 'none' }}
+      uses: EndBug/add-and-commit@v9
+      with:
+        author_name: Dan Yalg
+        author_email: dan@thecodingforge.com.au
+        message: 'Automated Version Bump'
+        add: 'apps/mobile/app.json'

@@ -24,7 +24,7 @@ jobs:
         run: yarn run build:mobile
 
       - name: 🕵️ Pull Env Vars
-        working-directory: apps/mobilex b
+        working-directory: apps/mobile
         run: npx dotenv-vault pull development -m ${{ secrets.DOTENV_ME }} -y
         env:
           DOTENV_KEY: ${{ secrets.DOTENV_KEY }}

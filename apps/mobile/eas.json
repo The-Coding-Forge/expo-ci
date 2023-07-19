@@ -1,0 +1,56 @@
+{
+  "cli": {
+    "version": ">= 3.15.0",
+    "promptToConfigurePushNotifications": false
+  },
+  "build": {
+    "base": {
+      "env": {
+        "icon": "./assets/images/icon.png",
+        "splashImage": "./assets/images/splash.png",
+        "bundleIdentifier": "com.demociapp"
+      },
+      "cache": {
+        "key": "turbo",
+        "paths": ["../../node_modules/.cache/turbo"]
+      }
+    },
+    "sim": {
+      "extends": "base",
+      "distribution": "internal",
+      "channel": "simulator",
+      "ios": {
+        "simulator": true
+      },
+      "android": {
+        "buildType": "apk"
+      }
+    },
+    "bundled-sim-build": {
+      "extends": "sim",
+      "developmentClient": false,
+      "channel": "bundled-sim-build"
+    },
+    "dev-client-sim-build": {
+      "extends": "sim",
+      "developmentClient": true,
+      "channel": "dev-client-sim-build"
+    },
+    "development": {
+      "extends": "base",
+      "developmentClient": true,
+      "distribution": "internal",
+      "channel": "development"
+    },
+    "staging": {
+      "extends": "base",
+      "developmentClient": false,
+      "channel": "staging"
+    },
+    "production": {
+      "extends": "base",
+      "developmentClient": false,
+      "channel": "production"
+    }
+  }
+}

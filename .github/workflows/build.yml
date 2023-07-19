@@ -1,0 +1,48 @@
+name: build
+
+on:
+  workflow_dispatch:
+    inputs:
+      platform:
+        description: Platform to build for (all/android/ios)
+        type: choice
+        required: true
+        default: all
+        options:
+          - all
+          - android
+          - ios
+      profile:
+        description: EAS Profile
+        type: choice
+        required: true
+        default: dev-client-sim-build
+        options:
+          - dev-client-sim-build
+          - bundled-sim-build
+          - development
+          - staging
+          - production
+      submit:
+        description: Auto submit to the store? (production only)
+        type: boolean
+        required: false
+
+jobs:
+  mobile:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 🏗 Setup repository
+        uses: actions/checkout@v3
+
+      - name: 🏗 Setup monorepo
+        uses: ./.github/actions/setup-monorepo
+        with:
+          expo-token: ${{ secrets.EXPO_CI_TOKEN }}
+
+      - name: 👷 Build packages for mobile
+        run: yarn run build:mobile
+
+      - name: 🚀 Build mobile
+        working-directory: apps/mobile
+        run: eas build --non-interactive --wait --platform=${{ github.event.inputs.platform }} --profile=${{ github.event.inputs.profile }}

@@ -1,0 +1,35 @@
+{
+  "expo": {
+    "name": "Demo CI App",
+    "owner": "labrysgroup",
+    "slug": "demociapp",
+    "version": "2.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "light",
+    "assetBundlePatterns": ["**/*"],
+    "ios": {
+      "supportsTablet": true,
+      "buildNumber": "3",
+      "bundleIdentifier": "com.demociapp"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#FFFFFF"
+      },
+      "versionCode": 3,
+      "package": "com.demociapp"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "843f52df-3350-4f31-889c-bf56783c6be4"
+      }
+    },
+    "runtimeVersion": {
+      "policy": "sdkVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/843f52df-3350-4f31-889c-bf56783c6be4"
+    }
+  }
+}

@@ -4,7 +4,7 @@ import { StyleSheet, View } from 'react-native';
 export default function App() {
   return (
     <View style={styles.container}>
-      <HomeIcon style={{ fontSize: 60 }} />
+      <HomeIcon style={{ fontSize: 65 }} />
       <HomeScreen />
     </View>
   );

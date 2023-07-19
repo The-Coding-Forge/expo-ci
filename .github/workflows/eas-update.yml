@@ -19,7 +19,6 @@ jobs:
       - uses: dorny/paths-filter@v2
         id: filter
         with:
-          base: $GITHUB_SHA
           filters: |
             mobile:
               - 'apps/mobile/**'
@@ -28,7 +27,7 @@ jobs:
 
   update-mobile:
     needs: check
-    if: needs.check.outputs.mobile == true
+    if: needs.check.outputs.mobile == 'true'
     runs-on: ubuntu-latest
     steps:
       - name: 🏗 Setup Repo
@@ -63,7 +62,7 @@ jobs:
   mobile-update-ignored:
     timeout-minutes: 5
     needs: check
-    if: needs.check.outputs.mobile == false
+    if: needs.check.outputs.mobile == 'false'
     runs-on: ubuntu-latest
     steps:
       - name: Comment PR

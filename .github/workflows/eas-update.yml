@@ -15,16 +15,16 @@ jobs:
       - name: 🏗 Setup Repo
         uses: actions/checkout@v3
 
-      - name: 🏗 Setup Monorepo
-        uses: ./.github/actions/setup-monorepo
-        with:
-          expo-token: ${{ secrets.EXPO_CI_TOKEN }}
-
       - name: 👷 Pull Env Vars
         working-directory: apps/mobile
         run: npx dotenv-vault pull development -m ${{ secrets.DOTENV_ME }} -y
         env:
           DOTENV_KEY: ${{ secrets.DOTENV_KEY }}
+
+      - name: 🏗 Setup Monorepo
+        uses: ./.github/actions/setup-monorepo
+        with:
+          expo-token: ${{ secrets.EXPO_CI_TOKEN }}
 
       - name: 👷 Build Mobile Packages
         run: yarn run build:mobile

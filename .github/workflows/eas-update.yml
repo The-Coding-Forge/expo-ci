@@ -21,6 +21,7 @@ jobs:
           expo-token: ${{ secrets.EXPO_CI_TOKEN }}
 
       - name: 👷 Pull Env Vars
+        working-directory: apps/mobile
         run: npx dotenv-vault pull development
         env:
           DOTENV_KEY: ${{ secrets.DOTENV_KEY }}

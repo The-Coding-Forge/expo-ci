@@ -2,8 +2,8 @@ name: Version Bump
 description: Bumps app version
 
 inputs:
-  node-version:
-    working-directory: Path to cd into
+  working-directory:
+    description: Path to cd into
     default: apps/mobile
 
   version-bump-type:

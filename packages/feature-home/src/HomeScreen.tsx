@@ -5,6 +5,6 @@ type HomeScreenProps = ComponentProps<typeof Paragraph>;
 
 export const HomeScreen = (props: HomeScreenProps) => (
   <Paragraph {...props}>
-    Hello from an <Strong>Expo monorepo</Strong>!
+    Hello from an <Strong>Expo monorepo</Strong>!!!!
   </Paragraph>
 );

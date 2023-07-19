@@ -8,6 +8,9 @@ concurrency:
   group: ${{ github.head_ref }}
   cancel-in-progress: true
 
+env:
+  DOTENV_KEY: ${{ secrets.DOTENV_KEY }}
+
 jobs:
   mobile:
     runs-on: ubuntu-latest
@@ -22,6 +25,8 @@ jobs:
 
       - name: 👷 Build Mobile Packages
         run: yarn run build:mobile
+        env:
+          DOTENV_KEY: ${{ secrets.DOTENV_KEY }}
 
       - name: 🚀 EAS Update Mobile
         uses: expo/expo-github-action/preview@v8

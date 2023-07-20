@@ -7,7 +7,7 @@ export default function Home() {
   return (
     <div className={styles.container}>
       <Head>
-        <title>Expo monorepo!!</title>
+        <title>Expo monorepo</title>
         <meta name="description" content="Sharing code with Next.js" />
         <link rel="icon" href="/favicon.ico" />
       </Head>

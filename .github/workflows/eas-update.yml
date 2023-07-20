@@ -2,7 +2,10 @@ name: EAS Update
 
 on:
   pull_request:
-    types: [opened, reopened, synchronize]
+    types: [opened, reopened]
+  push:
+    paths:
+      - 'apps/mobile/**'
 
 concurrency:
   group: ${{ github.head_ref }}
@@ -19,6 +22,7 @@ jobs:
       - uses: dorny/paths-filter@v2
         id: filter
         with:
+          base: $GITHUB_SHA
           filters: |
             mobile:
               - 'apps/mobile/**'

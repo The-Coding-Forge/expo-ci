@@ -13,7 +13,7 @@ jobs:
     timeout-minutes: 10
     runs-on: ubuntu-latest
     outputs:
-      expo: ${{ steps.filter.outputs.mobile }}
+      mobile: ${{ steps.filter.outputs.mobile }}
     steps:
       - uses: actions/checkout@v3
       - uses: dorny/paths-filter@v2
@@ -27,7 +27,7 @@ jobs:
 
   update-mobile:
     needs: check
-    if: ${{needs.check.outputs.mobile}} == 'true'
+    if: needs.check.outputs.mobile == 'true'
     runs-on: ubuntu-latest
     steps:
       - name: 🏗 Setup Repo
@@ -62,7 +62,7 @@ jobs:
   mobile-update-ignored:
     timeout-minutes: 5
     needs: check
-    if: ${{needs.check.outputs.mobile}} == 'false'
+    if: needs.check.outputs.mobile == false
     runs-on: ubuntu-latest
     steps:
       - name: Comment PR

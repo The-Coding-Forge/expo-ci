@@ -9,7 +9,7 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  check:
+  changes:
     timeout-minutes: 10
     runs-on: ubuntu-latest
     outputs:
@@ -19,16 +19,15 @@ jobs:
       - uses: dorny/paths-filter@v2
         id: filter
         with:
-          base: $GITHUB_SHA
           filters: |
             mobile:
               - 'apps/mobile/**'
 
-      - run: echo ${{steps.filter.outputs.mobile}}
+      - run: echo ${{ steps.filter.outputs.mobile }}
 
   update-mobile:
-    needs: check
-    if: needs.check.outputs.mobile == 'true'
+    needs: changes
+    if: ${{ needs.changes.outputs.mobile == 'true' }}
     runs-on: ubuntu-latest
     steps:
       - name: 🏗 Setup Repo
@@ -62,8 +61,8 @@ jobs:
 
   mobile-update-ignored:
     timeout-minutes: 5
-    needs: check
-    if: needs.check.outputs.mobile == false
+    needs: changes
+    if: ${{ needs.changes.outputs.mobile == 'false' }}
     runs-on: ubuntu-latest
     steps:
       - name: Comment PR

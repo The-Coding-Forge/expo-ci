@@ -9,7 +9,26 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  mobile:
+  changes:
+    timeout-minutes: 10
+    runs-on: ubuntu-latest
+    outputs:
+      mobile: ${{ steps.filter.outputs.mobile }}
+    steps:
+      - uses: actions/checkout@v3
+      - uses: dorny/paths-filter@v2
+        id: filter
+        with:
+          base: $GITHUB_SHA
+          filters: |
+            mobile:
+              - 'apps/mobile/**'
+
+      - run: echo ${{ steps.filter.outputs.mobile }}
+
+  update-mobile:
+    needs: changes
+    if: ${{ needs.changes.outputs.mobile == 'true' }}
     runs-on: ubuntu-latest
     steps:
       - name: 🏗 Setup Repo
@@ -23,8 +42,32 @@ jobs:
       - name: 👷 Build Mobile Packages
         run: yarn run build:mobile
 
+      - name: 🕵️ Pull Env Vars
+        working-directory: apps/mobile
+        run: npx dotenv-vault pull development -m ${{ secrets.DOTENV_ME }}
+        env:
+          DOTENV_KEY: ${{ secrets.DOTENV_KEY }}
+          # https://github.com/expo/expo-github-action/issues/221
+
+      - name: 😷 Expo Doctor
+        working-directory: apps/mobile
+        run: npx expo-doctor
+
       - name: 🚀 EAS Update Mobile
+        continue-on-error: true
         uses: expo/expo-github-action/preview@v8
         with:
           working-directory: apps/mobile
           command: eas update --auto --branch ${{ github.head_ref }} --non-interactive
+
+  mobile-update-ignored:
+    timeout-minutes: 5
+    needs: changes
+    if: ${{ needs.changes.outputs.mobile == 'false' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Comment PR
+        uses: marocchino/sticky-pull-request-comment@v2
+        with:
+          message: |
+            :no_entry: This PR does not contain changes to the mobile app. No Expo Preview Deployment will be created.

@@ -16,20 +16,19 @@
     "@acme/feature-home": "*",
     "expo": "^49.0.2",
     "expo-dev-client": "~2.4.5",
-    "expo-status-bar": "~1.6.0",
     "expo-updates": "~0.18.9",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "react-native": "0.72.1",
+    "react-native": "0.72.3",
     "react-native-web": "~0.19.6"
   },
   "devDependencies": {
     "@acme/eslint-config": "*",
-    "@babel/core": "^7.19.3",
+    "@babel/core": "^7.20.0",
     "@types/react": "~18.2.14",
-    "@types/react-dom": "~18.0.11",
+    "@types/react-dom": "~18.0.10",
     "@types/react-native": "~0.70.6",
-    "babel-preset-expo": "~9.5.0"
+    "babel-preset-expo": "^9.5.0"
   },
   "eslintConfig": {
     "extends": "@acme/eslint-config",

@@ -36,6 +36,7 @@ on:
 
 env:
   WORKING_DIRECTORY: apps/mobile
+  DOTENV_KEY: ${{ secrets.DOTENV_KEY }}
 
 jobs:
   mobile:

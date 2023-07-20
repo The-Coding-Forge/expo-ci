@@ -1,13 +1,11 @@
 import { HomeIcon, HomeScreen } from '@acme/feature-home';
-import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, View } from 'react-native';
 
 export default function App() {
   return (
     <View style={styles.container}>
-      <HomeIcon style={{ fontSize: 64 }} />
+      <HomeIcon style={{ fontSize: 55 }} />
       <HomeScreen />
-      <StatusBar style="auto" />
     </View>
   );
 }
